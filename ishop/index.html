@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ishop</title>
+</head>
+<body>
+    <div id="container"></div> 
+      
+    <script src="https://unpkg.com/react@15/dist/react.js"></script> 
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> 
+    
+    <script src="Ishop.js"></script>
+    <link rel="stylesheet" type="text/css" href="ishop.css" />
+
+    <script>
+
+        var shopName='ishop';
+        var prod=[
+            {name: 'phone', price: 399, qual: 20, image:'image/phone.jpg'},
+            {name: 'TV', price: 499, qual: 10, image:'image/tv.JPG'},
+            {name: 'notebook', price: 799, qual: 30, image:'image/notebook.jpg'},
+            {name: 'music-center', price: 299, qual: 15, image:'image/music.jpg'},
+            {name: 'smart-clock', price: 199, qual: 50, image:'image/smart.jpg'},
+        ]
+
+        ReactDOM.render(
+            React.createElement(Ishop,{name:shopName, products: prod}), 
+            document.getElementById('container') 
+        );
+
+    </script>
+</body>
+</html>

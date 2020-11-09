@@ -1,0 +1,10 @@
+.Selected td{
+    background-color: chartreuse;
+}
+.Product td {
+    border: solid 1px black;
+}
+.Product .Image {
+    width: 120px;
+    height: 100px;
+}
