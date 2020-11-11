@@ -15,8 +15,13 @@ var Ishop=React.createClass({
 
     getInitialState: function () {
         return {
-            products: this.props.products
+            products: this.props.products,
+            selectedCode: null
         }  
+    },
+
+    selected: function (code) {
+        this.setState({selectedCode: code});
     },
 
     deleteProd:function (code) {
@@ -41,6 +46,8 @@ var Ishop=React.createClass({
                         name: element.name,
                         code: index,
                         delete: this.deleteProd,
+                        select: this.selected,
+                        selectedCode: this.state.selectedCode,
                         key: index
                     })
                 )  
