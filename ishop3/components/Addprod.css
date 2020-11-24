@@ -1,0 +1,10 @@
+.Add {
+    border: solid 1px;
+    width: auto
+}
+.Addprod .Name {
+    text-align: center;
+}
+.Addprod .Notation {
+    color: red;
+}

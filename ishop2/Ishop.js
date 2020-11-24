@@ -25,15 +25,18 @@ var Ishop=React.createClass({
     },
 
     deleteProd:function (code) {
-        this.state.products.splice(+code, 1);
-        this.setState({products: this.state.products})
+        this.state.products.forEach((item, index)=>{
+            if(item.code==code){
+                this.state.products.splice(index, 1);
+            }
+        });
+        this.setState({products: this.state.products});
     },
 
     render: function(){
 
         var prod=this.state.products;
         var prods=[];
-        console.log(prod.length);
 
         if (prod.length>0) {
             prod.forEach((element, index) => {
@@ -44,7 +47,7 @@ var Ishop=React.createClass({
                         qual: element.qual,
                         image: element.image,
                         name: element.name,
-                        code: index,
+                        code: element.code,
                         delete: this.deleteProd,
                         select: this.selected,
                         selectedCode: this.state.selectedCode,
@@ -68,7 +71,7 @@ var Ishop=React.createClass({
                         React.DOM.td(null, 'Удалить'),
                     )
                 ),
-                React.DOM.tbody({}, (prods || prod))
+                React.DOM.tbody(null, (prods || prod))
             )
         )
     },

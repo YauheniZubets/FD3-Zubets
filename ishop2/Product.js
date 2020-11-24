@@ -17,19 +17,20 @@ var Product=React.createClass({
     },
 
     render: function() {
+        console.log(this.props.code, this.props.selectedCode);
         return React.DOM.tr({
-            className:`Product ${this.props.selectedCode==this.props.code ? 'Selected' : null}` ,
-            onClick: this.cbSelect},
-            React.DOM.td(null, this.props.name),
-            React.DOM.td(null, `${this.props.price} BYN`),
-            React.DOM.td(null, `${this.props.qual} шт.`),
-            React.DOM.td(null, this.prodImage(this.props.image, this.props.name)),
-            React.DOM.td(null, 
-                React.DOM.button({
-                    value: 'Удалить', 
-                    onClick: this.cbDelete
-                }, 'Удалить')
-            )
-        );
+                className:`Product ${this.props.selectedCode==this.props.code ? 'Selected' : ''}` ,
+                    onClick: this.cbSelect},
+                React.DOM.td(null, this.props.name),
+                React.DOM.td(null, `${this.props.price} BYN`),
+                React.DOM.td(null, `${this.props.qual} шт.`),
+                React.DOM.td(null, this.prodImage(this.props.image, this.props.name)),
+                React.DOM.td(null, 
+                    React.DOM.button({
+                        value: 'Удалить', 
+                        onClick: this.cbDelete
+                    }, 'Удалить')
+                )
+            );
     }
 })
