@@ -98,7 +98,7 @@ class Ishop extends React.Component {
     render (){
         var prod=this.state.products;
         var prods=[];
-        let prodForEdit, nextFreeId = null;
+        let prodForEdit, nextFreeId, prodInfo = null;
 
         if (prod.length>0) {
             prod.forEach((element, index) => {
@@ -122,10 +122,14 @@ class Ishop extends React.Component {
                 );
                 if (element.code==this.state.editCode){//для редактирования товара, чтобы сохранить инпут в state
                     prodForEdit=element;
+                };
+                if (element.code==this.state.selectedCode){
+                    prodInfo=element;
                 }
-                
             });
-            nextFreeId=prods.length+1;
+
+            nextFreeId=prods.length+1;//code для добавления нового товара
+
         } else {
             prods=!Boolean(prods);
         }
@@ -157,7 +161,8 @@ class Ishop extends React.Component {
                     (this.state.prodCard) &&
                     <Prodinfo 
                         selectedCode={this.state.selectedCode}
-                        products={this.state.products}
+                        product={prodInfo}
+                        
                     />
                 }
                 {

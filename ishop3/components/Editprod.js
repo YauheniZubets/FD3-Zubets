@@ -16,7 +16,6 @@ class Editprod extends React.Component {
     }
 
     cbNameInput = (EO) => {
-        console.log(EO.target.defaultValue, EO.target.value);
         if (EO.target.defaultValue!==EO.target.value){
             this.props.preventClicks(true);
         }

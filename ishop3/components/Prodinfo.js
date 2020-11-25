@@ -9,21 +9,18 @@ class Prodinfo extends React.Component {
     }
 
     render(){
-        const selectedProduct=this.props.products.map((item, index)=>{
-            if (item.code==this.props.selectedCode){
-                return (
-                    <div className='Prodinfo Card' key={index}>
-                        <div className='Prodinfo Name'>{item.name}</div>
-                        <div className='Prodinfo Descr'>
-                            <div>{item.price} BYN</div>
-                            <div>{item.qual} шт.</div>
-                            <div>{this.prodImage(item.image, item.name)}</div>
-                        </div>
-                    </div>
-                )
-            } 
-        })
-        return selectedProduct
+            
+        return (
+            <div className='Prodinfo Card'>
+                <div className='Prodinfo Name'>{this.props.product.name}</div>
+                <div className='Prodinfo Descr'>
+                    <div>{this.props.product.price} BYN</div>
+                    <div>{this.props.product.qual} шт.</div>
+                    <div>{this.prodImage(this.props.product.image, this.props.product.name)}</div>
+                </div>
+            </div>
+        )
+        
     }
 }
 

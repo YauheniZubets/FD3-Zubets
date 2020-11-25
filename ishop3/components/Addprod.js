@@ -8,10 +8,10 @@ class Addprod extends React.Component {
         priceVal: '',
         imageVal: '',
         quanVal: '',
-        nameErr: false,
-        priceErr: false,
-        imageErr: false,
-        quanErr: false
+        nameErr: true,
+        priceErr: true,
+        imageErr: true,
+        quanErr: true
     }
 
     cbNameInput = (EO) => {
