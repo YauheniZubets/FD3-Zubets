@@ -12,7 +12,6 @@ class Editprod extends React.Component {
         priceErr: false,
         imageErr: false,
         quanErr: false
-
     }
 
     cbNameInput = (EO) => {
@@ -71,19 +70,16 @@ class Editprod extends React.Component {
     }
 
     render () {
+        console.log(this.state, this.props.products);
         return (
             <div className='Addprod Add'>
-                {
-                this.state.addMode 
-                ? <div className='Addprod Name'>Добавить новый продукт</div>
-                : <div className='Addprod Name'>Редактировать продукт</div>
-                }
+                <div className='Addprod Name'>Редактировать продукт</div>
                 <div>
                     <div>ID: {this.props.products.code}</div>
                     <div>
                         Name: 
                         <input
-                            defaultValue={this.state.addMode ? '' : this.state.nameVal} 
+                            defaultValue={this.state.nameVal} 
                             onChange={this.cbNameInput}
                         />
                         {

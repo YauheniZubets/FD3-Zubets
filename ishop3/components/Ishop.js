@@ -88,7 +88,7 @@ class Ishop extends React.Component {
     }
 
     cbAddNewCard = () => {
-        this.setState({addCard: true, selectedCode: null, preventClicks: true});
+        this.setState({addCard: true, selectedCode: null, preventClicks: true, prodCard: false});
     }
 
     preventClicks = (toClick) => {//запрет клика, true - запрещены
