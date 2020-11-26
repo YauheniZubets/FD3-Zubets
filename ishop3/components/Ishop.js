@@ -80,7 +80,7 @@ class Ishop extends React.Component {
                 this.state.products.splice(index, 1, ediredProd);
             }
         });
-        this.setState({products: this.state.products});
+        this.setState({products: this.state.products, selectedCode: null});
     }
 
     removeCard = () => {

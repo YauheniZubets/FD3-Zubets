@@ -2,7 +2,7 @@ import React from 'react';
 import './Editprod.css';
 
 class Editprod extends React.Component {
-
+        
     state = {
         nameVal: this.props.products.name,
         priceVal: this.props.products.price,
@@ -14,47 +14,54 @@ class Editprod extends React.Component {
         quanErr: false
     }
 
+    componentDidUpdate(oldProps){
+        if (oldProps.products.name!==this.props.products.name){
+            this.setState({
+                nameVal: this.props.products.name,
+                priceVal: this.props.products.price,
+                imageVal: this.props.products.image,
+                quanVal: this.props.products.qual
+            });
+        }
+    }
+
     cbNameInput = (EO) => {
+        this.setState({nameVal: EO.target.value, nameErr: false});
         if (EO.target.defaultValue!==EO.target.value){
             this.props.preventClicks(true);
         }
         if(EO.target.value==''){
             this.setState({nameErr: true})
-        } else {
-            this.setState({nameVal: EO.target.value, nameErr: false});
         }
     }
 
     cbPriceInput = (EO) => {
+        this.setState({priceVal: EO.target.value, priceErr: false});
         if (EO.target.defaultValue!==EO.target.value){
             this.props.preventClicks(true);
         }
         if(EO.target.value==''){
             this.setState({priceErr: true})
-        } else {
-            this.setState({priceVal: EO.target.value, priceErr: false});
-        }
+        } 
     }
 
     cbImageInput = (EO) => {
+        this.setState({imageVal: EO.target.value, imageErr: false});
         if (EO.target.defaultValue!==EO.target.value){
             this.props.preventClicks(true);
         }
         if(EO.target.value==''){
             this.setState({imageErr: true})
-        } else {
-            this.setState({imageVal: EO.target.value, imageErr: false});
         }
     }
 
     cbQuanInput = (EO) => {
+        this.setState({quanVal: EO.target.value, quanErr: false});
         if (EO.target.defaultValue!==EO.target.value){
             this.props.preventClicks(true);
         }
         if(EO.target.value==''){
             this.setState({quanErr: true})
-        } else {
-            this.setState({quanVal: EO.target.value, quanErr: false});
         }
     }
 
@@ -70,7 +77,6 @@ class Editprod extends React.Component {
     }
 
     render () {
-        console.log(this.state, this.props.products);
         return (
             <div className='Addprod Add'>
                 <div className='Addprod Name'>Редактировать продукт</div>
@@ -78,8 +84,8 @@ class Editprod extends React.Component {
                     <div>ID: {this.props.products.code}</div>
                     <div>
                         Name: 
-                        <input
-                            defaultValue={this.state.nameVal} 
+                        <input 
+                            value={this.state.nameVal}
                             onChange={this.cbNameInput}
                         />
                         {
@@ -89,8 +95,8 @@ class Editprod extends React.Component {
                     </div>
                     <div>
                         Price: 
-                        <input 
-                            defaultValue={this.state.priceVal} 
+                        <input
+                            value={this.state.priceVal} 
                             onChange={this.cbPriceInput}
                         />
                         {
@@ -100,8 +106,8 @@ class Editprod extends React.Component {
                     </div>
                     <div>
                         Image: 
-                        <input 
-                            defaultValue={this.state.imageVal} 
+                        <input
+                            value={this.state.imageVal} 
                             onChange={this.cbImageInput}
                         />
                         {
@@ -111,8 +117,8 @@ class Editprod extends React.Component {
                     </div>
                     <div>
                         Quantity: 
-                        <input 
-                            defaultValue={this.state.quanVal} 
+                        <input
+                            value={this.state.quanVal} 
                             onChange={this.cbQuanInput}
                         />
                         {
