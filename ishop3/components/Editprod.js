@@ -14,16 +14,16 @@ class Editprod extends React.Component {
         quanErr: false
     }
 
-    componentDidUpdate(oldProps){
-        if (oldProps.products.name!==this.props.products.name){
-            this.setState({
-                nameVal: this.props.products.name,
-                priceVal: this.props.products.price,
-                imageVal: this.props.products.image,
-                quanVal: this.props.products.qual
-            });
-        }
-    }
+    // componentDidUpdate(oldProps){
+    //     if (oldProps.products.name!==this.props.products.name){
+    //         this.setState({
+    //             nameVal: this.props.products.name,
+    //             priceVal: this.props.products.price,
+    //             imageVal: this.props.products.image,
+    //             quanVal: this.props.products.qual
+    //         });
+    //     }
+    // }
 
     cbNameInput = (EO) => {
         this.setState({nameVal: EO.target.value, nameErr: false});

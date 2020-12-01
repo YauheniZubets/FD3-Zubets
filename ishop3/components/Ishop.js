@@ -133,7 +133,6 @@ class Ishop extends React.Component {
         } else {
             prods=!Boolean(prods);
         }
-
         return (
             <Fragment>
                 <table>
