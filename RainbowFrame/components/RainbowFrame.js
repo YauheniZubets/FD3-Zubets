@@ -25,6 +25,14 @@ class RainbowFrame extends React.Component {
     }
 
     render(){
+        /*
+        let code=this.props.children;
+        this.props.colors.forEach((item, index)=>{
+            console.log(item);
+            code=<div style={{border:'solid ' + item}} key={index}>{code}</div>
+        }) 
+        способ через цикл
+        */
         return ( 
             <Fragment>
                 {this.res}

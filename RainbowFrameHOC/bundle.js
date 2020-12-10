@@ -513,22 +513,42 @@ if (process.env.NODE_ENV === 'production') {
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(21);
+if (process.env.NODE_ENV !== 'production') {
+  var ReactIs = __webpack_require__(7);
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(22)(ReactIs.isElement, throwOnDirectAccess);
 } else {
-  module.exports = __webpack_require__(22);
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(23)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(20);
+} else {
+  module.exports = __webpack_require__(21);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 8 */
@@ -545,16 +565,19 @@ var _reactDom = __webpack_require__(11);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Ishop = __webpack_require__(19);
+var _RainbowFrame = __webpack_require__(19);
 
-var _Ishop2 = _interopRequireDefault(_Ishop);
+var _RainbowFrame2 = _interopRequireDefault(_RainbowFrame);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var shopName = 'ishop';
-var prod = __webpack_require__(32);
+var colors = ['red', 'orange', 'yellow', 'green', '#00BFFF', 'blue', 'purple'];
 
-_reactDom2.default.render(_react2.default.createElement(_Ishop2.default, { name: shopName, products: prod }), document.getElementById('container'));
+_reactDom2.default.render(_react2.default.createElement(
+    _RainbowFrame2.default,
+    { colors: colors },
+    'Hello!'
+), document.getElementById('container'));
 
 /***/ }),
 /* 9 */
@@ -29173,31 +29196,17 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(20);
+var _propTypes = __webpack_require__(6);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-__webpack_require__(25);
+var _DoubleButton = __webpack_require__(24);
 
-var _Product = __webpack_require__(26);
+var _DoubleButton2 = _interopRequireDefault(_DoubleButton);
 
-var _Product2 = _interopRequireDefault(_Product);
-
-var _Prodinfo = __webpack_require__(28);
-
-var _Prodinfo2 = _interopRequireDefault(_Prodinfo);
-
-var _Editprod = __webpack_require__(30);
-
-var _Editprod2 = _interopRequireDefault(_Editprod);
-
-var _Addprod = __webpack_require__(31);
-
-var _Addprod2 = _interopRequireDefault(_Addprod);
+var _withRainbowFrame = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29205,240 +29214,70 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Ishop = function (_React$Component) {
-    _inherits(Ishop, _React$Component);
+var RainbowFrame = function (_React$Component) {
+    _inherits(RainbowFrame, _React$Component);
 
-    function Ishop() {
-        var _ref;
+    function RainbowFrame() {
+        _classCallCheck(this, RainbowFrame);
 
-        var _temp, _this, _ret;
-
-        _classCallCheck(this, Ishop);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Ishop.__proto__ || Object.getPrototypeOf(Ishop)).call.apply(_ref, [this].concat(args))), _this), _this.displayName = 'ishop', _this.state = {
-            products: _this.props.products,
-            selectedCode: null,
-            prodCard: false,
-            editCard: false,
-            editCode: null,
-            preventClicks: false,
-            addCard: false
-        }, _this.selected = function (code) {
-            code !== _this.state.selectedCode ? _this.setState({ selectedCode: code, prodCard: true, editCard: false }) : _this.setState({ selectedCode: null, prodCard: !_this.state.prodCard });
-        }, _this.addProd = function (name, price, image, quan, code) {
-            var newProd = {
-                name: name,
-                code: code,
-                price: price,
-                qual: quan,
-                image: image
-            };
-            _this.state.products.push(newProd);
-            _this.setState({ products: _this.state.products });
-        }, _this.deleteProd = function (code) {
-            _this.state.products.forEach(function (item, index) {
-                if (item.code == code) {
-                    _this.state.products.splice(index, 1);
-                }
-            });
-            _this.setState({ products: _this.state.products });
-        }, _this.cbShowCard = function () {
-            _this.setState({ prodCard: !_this.state.prodCard });
-        }, _this.editCard = function (code) {
-            _this.setState({ editCard: true, editCode: code, selectedCode: code, prodCard: false });
-        }, _this.changeProd = function (name, price, image, quan, code) {
-            var ediredProd = {
-                name: name,
-                code: code,
-                price: price,
-                qual: quan,
-                image: image
-            };
-            _this.state.products.forEach(function (item, index) {
-                if (item.code == code) {
-                    _this.state.products.splice(index, 1, ediredProd);
-                }
-            });
-            _this.setState({ products: _this.state.products, selectedCode: null });
-        }, _this.removeCard = function () {
-            _this.setState({ editCard: false, addCard: false });
-        }, _this.cbAddNewCard = function () {
-            _this.setState({ addCard: true, selectedCode: null, preventClicks: true, prodCard: false });
-        }, _this.preventClicks = function (toClick) {
-            //запрет клика, true - запрещены
-            toClick ? _this.setState({ preventClicks: true }) : _this.setState({ preventClicks: false });
-        }, _temp), _possibleConstructorReturn(_this, _ret);
+        return _possibleConstructorReturn(this, (RainbowFrame.__proto__ || Object.getPrototypeOf(RainbowFrame)).apply(this, arguments));
     }
 
-    _createClass(Ishop, [{
+    _createClass(RainbowFrame, [{
         key: 'render',
+
+
+        // res=null;
+        // count=0;
+
+        // borders = (colors, count) => {
+        //     return count < colors.length - 1
+        //             ?   <div style={{padding: '5px', border: 'solid 5px ' + colors[count]}}>
+        //                     {this.borders(colors, count+1)}
+        //                 </div>
+        //             :   <div style={{textAlign: 'center', lineHeight:'50px', height: '50px', border: 'solid 5px ' + colors[count]}} >
+        //                     {!colors[count+1] && this.props.children}
+        //                 </div>
+        // }
+
+        // componentWillMount(){
+        //     this.res=this.borders(this.props.colors, this.count);
+        // }
+
         value: function render() {
-            var _this2 = this;
 
-            var prod = this.state.products;
-            var prods = [];
-            var prodForEdit = void 0,
-                nextFreeId = void 0,
-                prodInfo = null;
+            var code = this.props.children;
+            this.props.colors.forEach(function (item, index) {
+                console.log(item);
+                code = _react2.default.createElement(
+                    'div',
+                    { style: { border: 'solid ' + { item: item } }, hoc: item, key: index },
+                    code
+                );
+            });
 
-            if (prod.length > 0) {
-                prod.forEach(function (element, index) {
-                    var _React$createElement;
+            //let FramedDoubleButton=withRainbowFrame(this.props.colors)(DoubleButton);
+            // <Fragment>
+            //         <DoubleButton caption1="однажды" caption2="пору" cbPressed={ num => alert(num) } >в студёную зимнюю</DoubleButton>
+            //         <FramedDoubleButton caption1="я из лесу" caption2="мороз" cbPressed={ num => alert(num) } >вышел, был сильный</FramedDoubleButton>
+            //     </Fragment> 
 
-                    prods.push(_react2.default.createElement(_Product2.default, (_React$createElement = {
-                        name: element.name,
-                        price: element.price,
-                        qual: element.qual,
-                        image: element.image
-                    }, _defineProperty(_React$createElement, 'name', element.name), _defineProperty(_React$createElement, 'code', element.code), _defineProperty(_React$createElement, 'delete', _this2.deleteProd), _defineProperty(_React$createElement, 'select', _this2.selected), _defineProperty(_React$createElement, 'selectedCode', _this2.state.selectedCode), _defineProperty(_React$createElement, 'edit', _this2.editCard), _defineProperty(_React$createElement, 'editCode', _this2.state.editCode), _defineProperty(_React$createElement, 'preventClicks', _this2.state.preventClicks), _defineProperty(_React$createElement, 'disDelBtn', _this2.state.editCard), _defineProperty(_React$createElement, 'key', index), _React$createElement)));
-                    if (element.code == _this2.state.editCode) {
-                        //для редактирования товара, чтобы сохранить инпут в state
-                        prodForEdit = element;
-                    };
-                    if (element.code == _this2.state.selectedCode) {
-                        prodInfo = element;
-                    }
-                });
-
-                nextFreeId = prods.length + 1; //code для добавления нового товара
-            } else {
-                prods = !Boolean(prods);
-            }
-            return _react2.default.createElement(
-                _react.Fragment,
-                null,
-                _react2.default.createElement(
-                    'table',
-                    null,
-                    _react2.default.createElement(
-                        'caption',
-                        null,
-                        '\u0421\u043F\u0438\u0441\u043E\u043A \u0442\u043E\u0432\u0430\u0440\u043E\u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0430 ',
-                        this.props.name
-                    ),
-                    _react2.default.createElement(
-                        'thead',
-                        null,
-                        _react2.default.createElement(
-                            'tr',
-                            { className: 'Ishop' },
-                            _react2.default.createElement(
-                                'td',
-                                null,
-                                '\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435'
-                            ),
-                            _react2.default.createElement(
-                                'td',
-                                null,
-                                '\u0426\u0435\u043D\u0430'
-                            ),
-                            _react2.default.createElement(
-                                'td',
-                                null,
-                                '\u041E\u0441\u0442\u0430\u0442\u043E\u043A'
-                            ),
-                            _react2.default.createElement(
-                                'td',
-                                null,
-                                '\u0418\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435'
-                            ),
-                            _react2.default.createElement(
-                                'td',
-                                null,
-                                '\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C'
-                            ),
-                            _react2.default.createElement(
-                                'td',
-                                null,
-                                '\u0423\u0434\u0430\u043B\u0438\u0442\u044C'
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'tbody',
-                        null,
-                        prods || prod
-                    )
-                ),
-                _react2.default.createElement(
-                    'button',
-                    {
-                        onClick: this.cbAddNewCard,
-                        value: this.state.prodCard,
-                        disabled: this.state.addCard || this.state.editCard
-                    },
-                    '\u041D\u043E\u0432\u044B\u0439 \u043F\u0440\u043E\u0434\u0443\u043A\u0442'
-                ),
-                this.state.prodCard && _react2.default.createElement(_Prodinfo2.default, {
-                    selectedCode: this.state.selectedCode,
-                    product: prodInfo
-
-                }),
-                this.state.editCard && _react2.default.createElement(_Editprod2.default, {
-                    editCode: this.state.editCode,
-                    products: prodForEdit,
-                    changeData: this.changeProd,
-                    remove: this.removeCard,
-                    preventClicks: this.preventClicks
-                }),
-                this.state.addCard && _react2.default.createElement(_Addprod2.default, {
-                    preventClicks: this.preventClicks,
-                    addData: this.addProd,
-                    nextFreeId: nextFreeId,
-                    remove: this.removeCard
-                })
-            );
+            return code;
         }
     }]);
 
-    return Ishop;
+    return RainbowFrame;
 }(_react2.default.Component);
 
-Ishop.propTypes = {
-    products: _propTypes2.default.array
-};
-Ishop.defaultProps = {
-
-    name: 'Anonymous',
-    products: "Список товаров временно недоступен..."
-
+RainbowFrame.propTypes = {
+    colors: _propTypes2.default.array.isRequired
 };
 ;
 
-exports.default = Ishop;
+exports.default = RainbowFrame;
 
 /***/ }),
 /* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var ReactIs = __webpack_require__(6);
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(23)(ReactIs.isElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(24)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29460,7 +29299,7 @@ exports.isValidElementType=function(a){return"string"===typeof a||"function"===t
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29649,7 +29488,7 @@ exports.typeOf = typeOf;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29662,7 +29501,7 @@ exports.typeOf = typeOf;
 
 
 
-var ReactIs = __webpack_require__(6);
+var ReactIs = __webpack_require__(7);
 var assign = __webpack_require__(2);
 
 var ReactPropTypesSecret = __webpack_require__(4);
@@ -30248,7 +30087,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30319,13 +30158,66 @@ module.exports = function() {
 
 
 /***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(6);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DoubleButton = function (_React$Component) {
+    _inherits(DoubleButton, _React$Component);
+
+    function DoubleButton() {
+        _classCallCheck(this, DoubleButton);
+
+        return _possibleConstructorReturn(this, (DoubleButton.__proto__ || Object.getPrototypeOf(DoubleButton)).apply(this, arguments));
+    }
+
+    _createClass(DoubleButton, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _react.Fragment,
+                null,
+                _react2.default.createElement('input', { type: 'button', onClick: this.props.cbPressed, value: this.props.caption1 }),
+                this.props.children,
+                _react2.default.createElement('input', { type: 'button', onClick: this.props.cbPressed, value: this.props.caption2 })
+            );
+        }
+    }]);
+
+    return DoubleButton;
+}(_react2.default.Component);
+
+DoubleButton.propTypes = {};
+;
+
+exports.default = DoubleButton;
+
+/***/ }),
 /* 25 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30334,619 +30226,27 @@ module.exports = function() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(27);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Product = function (_React$Component) {
-    _inherits(Product, _React$Component);
-
-    function Product() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
-        _classCallCheck(this, Product);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Product.__proto__ || Object.getPrototypeOf(Product)).call.apply(_ref, [this].concat(args))), _this), _this.prodImage = function (url, name) {
-            return _react2.default.createElement('img', { src: url, alt: name, className: 'Image' });
-        }, _this.cbDelete = function () {
-            if (!_this.props.preventClicks) {
-                if (confirm('Действительно удалить?')) {
-                    _this.props.delete(_this.props.code);
-                }
-            }
-        }, _this.cbEdit = function () {
-            if (!_this.props.preventClicks) {
-                _this.props.edit(_this.props.code);
-            }
-        }, _this.cbSelect = function (EO) {
-            if (!_this.props.preventClicks) {
-                if (EO.target.value !== 'Delete' && EO.target.value !== 'Edit') {
-                    _this.props.select(_this.props.code);
-                }
-            }
-        }, _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    _createClass(Product, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'tr',
-                { className: 'Product ' + (this.props.selectedCode == this.props.code ? 'Selected' : ''),
-                    onClick: this.cbSelect },
-                _react2.default.createElement(
-                    'td',
-                    null,
-                    this.props.name
-                ),
-                _react2.default.createElement(
-                    'td',
-                    null,
-                    this.props.price + ' BYN'
-                ),
-                _react2.default.createElement(
-                    'td',
-                    null,
-                    this.props.qual + ' \u0448\u0442.'
-                ),
-                _react2.default.createElement(
-                    'td',
-                    null,
-                    this.prodImage(this.props.image, this.props.name)
-                ),
-                _react2.default.createElement(
-                    'td',
-                    null,
-                    _react2.default.createElement(
-                        'button',
-                        { value: 'Edit', onClick: this.cbEdit },
-                        '\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C'
-                    )
-                ),
-                _react2.default.createElement(
-                    'td',
-                    null,
-                    _react2.default.createElement(
-                        'button',
-                        {
-                            value: 'Delete',
-                            onClick: this.cbDelete,
-                            disabled: this.props.disDelBtn
-                        },
-                        '\u0423\u0434\u0430\u043B\u0438\u0442\u044C'
-                    )
-                )
-            );
-        }
-    }]);
-
-    return Product;
-}(_react2.default.Component);
-
-;
-
-exports.default = Product;
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.withRainbowFrame = undefined;
 
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(29);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Prodinfo = function (_React$Component) {
-    _inherits(Prodinfo, _React$Component);
-
-    function Prodinfo() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
-        _classCallCheck(this, Prodinfo);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Prodinfo.__proto__ || Object.getPrototypeOf(Prodinfo)).call.apply(_ref, [this].concat(args))), _this), _this.prodImage = function (url, name) {
-            return _react2.default.createElement('img', { src: url, alt: name, className: 'Image' });
-        }, _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    _createClass(Prodinfo, [{
-        key: 'render',
-        value: function render() {
-
+function withRainbowFrame(colors) {
+    return function (Component) {
+        return function (props) {
             return _react2.default.createElement(
                 'div',
-                { className: 'Prodinfo Card' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'Prodinfo Name' },
-                    this.props.product.name
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'Prodinfo Descr' },
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        this.props.product.price,
-                        ' BYN'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        this.props.product.qual,
-                        ' \u0448\u0442.'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        this.prodImage(this.props.product.image, this.props.product.name)
-                    )
-                )
+                { style: { border: 'solid' } },
+                _react2.default.createElement(Component, props)
             );
-        }
-    }]);
+        };
+    };
+};
 
-    return Prodinfo;
-}(_react2.default.Component);
-
-exports.default = Prodinfo;
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Editprod = function (_React$Component) {
-    _inherits(Editprod, _React$Component);
-
-    function Editprod() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
-        _classCallCheck(this, Editprod);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Editprod.__proto__ || Object.getPrototypeOf(Editprod)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-            nameVal: _this.props.products.name,
-            priceVal: _this.props.products.price,
-            imageVal: _this.props.products.image,
-            quanVal: _this.props.products.qual,
-            nameErr: false,
-            priceErr: false,
-            imageErr: false,
-            quanErr: false
-
-            // componentDidUpdate(oldProps){
-            //     if (oldProps.products.name!==this.props.products.name){
-            //         this.setState({
-            //             nameVal: this.props.products.name,
-            //             priceVal: this.props.products.price,
-            //             imageVal: this.props.products.image,
-            //             quanVal: this.props.products.qual
-            //         });
-            //     }
-            // }
-
-        }, _this.cbNameInput = function (EO) {
-            _this.setState({ nameVal: EO.target.value, nameErr: false });
-            if (EO.target.defaultValue !== EO.target.value) {
-                _this.props.preventClicks(true);
-            }
-            if (EO.target.value == '') {
-                _this.setState({ nameErr: true });
-            }
-        }, _this.cbPriceInput = function (EO) {
-            _this.setState({ priceVal: EO.target.value, priceErr: false });
-            if (EO.target.defaultValue !== EO.target.value) {
-                _this.props.preventClicks(true);
-            }
-            if (EO.target.value == '') {
-                _this.setState({ priceErr: true });
-            }
-        }, _this.cbImageInput = function (EO) {
-            _this.setState({ imageVal: EO.target.value, imageErr: false });
-            if (EO.target.defaultValue !== EO.target.value) {
-                _this.props.preventClicks(true);
-            }
-            if (EO.target.value == '') {
-                _this.setState({ imageErr: true });
-            }
-        }, _this.cbQuanInput = function (EO) {
-            _this.setState({ quanVal: EO.target.value, quanErr: false });
-            if (EO.target.defaultValue !== EO.target.value) {
-                _this.props.preventClicks(true);
-            }
-            if (EO.target.value == '') {
-                _this.setState({ quanErr: true });
-            }
-        }, _this.cbChangeData = function () {
-            _this.props.preventClicks(false);
-            _this.props.changeData(_this.state.nameVal, _this.state.priceVal, _this.state.imageVal, _this.state.quanVal, _this.props.editCode);
-            _this.props.remove();
-        }, _this.cbRemoveCard = function () {
-            _this.props.preventClicks(false);
-            _this.props.remove();
-        }, _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    _createClass(Editprod, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                { className: 'Addprod Add' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'Addprod Name' },
-                    '\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442'
-                ),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'ID: ',
-                        this.props.products.code
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'Name:',
-                        _react2.default.createElement('input', {
-                            value: this.state.nameVal,
-                            onChange: this.cbNameInput
-                        }),
-                        this.state.nameErr && _react2.default.createElement(
-                            'span',
-                            { className: 'Addprod Notation' },
-                            '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u0435. \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u0441\u0442\u0440\u043E\u043A\u043E\u0439.'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'Price:',
-                        _react2.default.createElement('input', {
-                            value: this.state.priceVal,
-                            onChange: this.cbPriceInput
-                        }),
-                        this.state.priceErr && _react2.default.createElement(
-                            'span',
-                            { className: 'Addprod Notation' },
-                            '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u0435. \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u043B\u044E\u0431\u044B\u043C \u0447\u0438\u0441\u043B\u043E\u043C \u0431\u043E\u043B\u044C\u0448\u0435, \u0447\u0435\u043C 0.'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'Image:',
-                        _react2.default.createElement('input', {
-                            value: this.state.imageVal,
-                            onChange: this.cbImageInput
-                        }),
-                        this.state.imageErr && _react2.default.createElement(
-                            'span',
-                            { className: 'Addprod Notation' },
-                            '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u0435. \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u043C URL \u0430\u0434\u0440\u0435\u0441\u043E\u043C.'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'Quantity:',
-                        _react2.default.createElement('input', {
-                            value: this.state.quanVal,
-                            onChange: this.cbQuanInput
-                        }),
-                        this.state.quanErr && _react2.default.createElement(
-                            'span',
-                            { className: 'Addprod Notation' },
-                            '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u0435. \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u043F\u043E\u043B\u043E\u0436\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u043C \u0446\u0435\u043B\u044B\u043C \u0447\u0438\u0441\u043B\u043E\u043C.'
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'button',
-                        {
-                            disabled: this.state.nameErr || this.state.priceErr || this.state.imageErr || this.state.quanErr,
-                            onClick: this.cbChangeData
-                        },
-                        '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C'
-                    ),
-                    _react2.default.createElement(
-                        'button',
-                        { onClick: this.cbRemoveCard },
-                        '\u041E\u0442\u043C\u0435\u043D\u0438\u0442\u044C'
-                    )
-                )
-            );
-        }
-    }]);
-
-    return Editprod;
-}(_react2.default.Component);
-
-;
-
-exports.default = Editprod;
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Addprod = function (_React$Component) {
-    _inherits(Addprod, _React$Component);
-
-    function Addprod() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
-        _classCallCheck(this, Addprod);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Addprod.__proto__ || Object.getPrototypeOf(Addprod)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-            nameVal: '',
-            priceVal: '',
-            imageVal: '',
-            quanVal: '',
-            nameErr: true,
-            priceErr: true,
-            imageErr: true,
-            quanErr: true
-        }, _this.cbNameInput = function (EO) {
-            _this.props.preventClicks(true);
-            _this.setState({ nameVal: EO.target.value, nameErr: false });
-            if (EO.target.value == '') {
-                _this.setState({ nameErr: true });
-            }
-        }, _this.cbPriceInput = function (EO) {
-            _this.props.preventClicks(true);
-            _this.setState({ priceVal: EO.target.value, priceErr: false });
-            if (EO.target.value == '') {
-                _this.setState({ priceErr: true });
-            }
-        }, _this.cbImageInput = function (EO) {
-            _this.props.preventClicks(true);
-            _this.setState({ imageVal: EO.target.value, imageErr: false });
-            if (EO.target.value == '') {
-                _this.setState({ imageErr: true });
-            }
-        }, _this.cbQuanInput = function (EO) {
-            _this.props.preventClicks(true);
-            _this.setState({ quanVal: EO.target.value, quanErr: false });
-            if (EO.target.value == '') {
-                _this.setState({ quanErr: true });
-            }
-        }, _this.cbAddData = function () {
-            _this.props.preventClicks(false);
-            _this.props.addData(_this.state.nameVal, _this.state.priceVal, _this.state.imageVal, _this.state.quanVal, _this.props.nextFreeId);
-            _this.props.remove();
-        }, _this.cbRemoveCard = function () {
-            _this.props.preventClicks(false);
-            _this.props.remove();
-        }, _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    _createClass(Addprod, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                { className: 'Addprod Add' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'Addprod Name' },
-                    '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043D\u043E\u0432\u044B\u0439 \u043F\u0440\u043E\u0434\u0443\u043A\u0442'
-                ),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'ID: ',
-                        this.props.nextFreeId
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'Name:',
-                        _react2.default.createElement('input', {
-                            value: this.state.nameVal,
-                            onChange: this.cbNameInput
-                        }),
-                        (this.state.nameErr || this.state.nameVal == '') && _react2.default.createElement(
-                            'span',
-                            { className: 'Addprod Notation' },
-                            '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u0435. \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u0441\u0442\u0440\u043E\u043A\u043E\u0439.'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'Price:',
-                        _react2.default.createElement('input', {
-                            defaultValue: this.state.priceVal,
-                            onChange: this.cbPriceInput
-                        }),
-                        (this.state.priceErr || this.state.priceVal == '') && _react2.default.createElement(
-                            'span',
-                            { className: 'Addprod Notation' },
-                            '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u0435. \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u043B\u044E\u0431\u044B\u043C \u0447\u0438\u0441\u043B\u043E\u043C \u0431\u043E\u043B\u044C\u0448\u0435, \u0447\u0435\u043C 0.'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'Image:',
-                        _react2.default.createElement('input', {
-                            defaultValue: this.state.imageVal,
-                            onChange: this.cbImageInput
-                        }),
-                        (this.state.imageErr || this.state.imageVal == '') && _react2.default.createElement(
-                            'span',
-                            { className: 'Addprod Notation' },
-                            '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u0435. \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u043C URL \u0430\u0434\u0440\u0435\u0441\u043E\u043C.'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        'Quantity:',
-                        _react2.default.createElement('input', {
-                            defaultValue: this.state.quanVal,
-                            onChange: this.cbQuanInput
-                        }),
-                        (this.state.quanErr || this.state.quanVal == '') && _react2.default.createElement(
-                            'span',
-                            { className: 'Addprod Notation' },
-                            '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u0435. \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u043F\u043E\u043B\u043E\u0436\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u043C \u0446\u0435\u043B\u044B\u043C \u0447\u0438\u0441\u043B\u043E\u043C.'
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'button',
-                        {
-                            disabled: this.state.nameErr || this.state.priceErr || this.state.imageErr || this.state.quanErr,
-                            onClick: this.cbAddData
-                        },
-                        '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C'
-                    ),
-                    _react2.default.createElement(
-                        'button',
-                        { onClick: this.cbRemoveCard },
-                        '\u041E\u0442\u043C\u0435\u043D\u0438\u0442\u044C'
-                    )
-                )
-            );
-        }
-    }]);
-
-    return Addprod;
-}(_react2.default.Component);
-
-exports.default = Addprod;
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports) {
-
-module.exports = [{"name":"phone","code":1,"price":399,"qual":20,"image":"image/phone.jpg"},{"name":"TV","code":2,"price":499,"qual":10,"image":"image/tv.JPG"},{"name":"notebook","code":3,"price":799,"qual":30,"image":"image/notebook.jpg"},{"name":"music-center","code":4,"price":299,"qual":15,"image":"image/music.jpg"},{"name":"smart-clock","code":5,"price":199,"qual":50,"image":"image/smart.jpg"}]
+exports.withRainbowFrame = withRainbowFrame;
 
 /***/ })
 /******/ ]);
