@@ -7,6 +7,11 @@ import {addOrEditEvents} from './events';
 
 class AddOrEditClient extends React.PureComponent {
 
+    static propTypes={
+        mode: PropTypes.number.isRequired,
+        currentClient: PropTypes.any
+    }
+
     state = {
         mode:this.props.mode
     }
@@ -35,19 +40,19 @@ class AddOrEditClient extends React.PureComponent {
     setNewData = () => {
         if (this.newFamRef.value && this.newImRef.value && this.newOtchRef.value && this.newBalRef.value) {
             let newDataCli = [this.newFamRef.value, this.newImRef.value, this.newOtchRef.value, this.newBalRef.value];
-            if (this.props.currentClient.id) newDataCli.push(this.props.currentClient.id);
+            if (this.props.currentClient && this.props.currentClient.id) newDataCli.push(this.props.currentClient.id);
             (this.props.mode==1) && addOrEditEvents.emit('AddClient', newDataCli);
             (this.props.mode==2) && addOrEditEvents.emit('EditCurrentClient', newDataCli);
             this.newFamRef.value='';
             this.newImRef.value='';
             this.newOtchRef.value='';
             this.newBalRef.value='';
-        }
+        };
     }
 
     render(){
         console.log('Add or Edit Render');
-        if (this.props.currentClient) console.log(this.props.currentClient);
+        
         return (
             <div>
                 <input type='text' placeholder='Фамилия' 

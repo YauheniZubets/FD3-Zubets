@@ -30,22 +30,26 @@ class MobileClient extends React.PureComponent {
     addOrEditEvents.emit('ShowEditCard', this.state.client);
   };
 
+  deleteClient = () => {
+    addOrEditEvents.emit('DeleteClient', this.state.client);
+  }
+
   render() {
 
     console.log("MobileClient id="+this.props.client.id+" render");
     
     return (
-      <tr>
+      <tr className='MobileClient'>
         <td>{this.state.client.fam}</td>
         <td>{this.state.client.im}</td>
         <td>{this.state.client.otch}</td>
         <td>{this.state.client.balance}</td>
-        <td>Статус</td>
+        <td className={this.state.client.balance>0?'MobileClientActive':'MobileClientBlocked'}>{this.state.client.balance>0?'Активный':'Заблокирован'}</td>
         <td>
           <button value='Редактировать' onClick={this.showAddOrEditCard}>Редактировать</button>
         </td>
         <td>
-          <button value='Удалить'>Удалить</button>
+          <button value='Удалить' onClick={this.deleteClient}>Удалить</button>
         </td>
       </tr>
     );
