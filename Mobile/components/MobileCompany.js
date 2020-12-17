@@ -29,9 +29,7 @@ class MobileCompany extends React.PureComponent {
     addOrEditComponent: false,
     addOrEditMode: null,
     currentClient: null,
-    activeClientsList: null,
-    blockedClientsList: null, 
-    showDefaultClientsList: false
+    showList: 0,
   };
 
   setName1 = () => {
@@ -49,7 +47,11 @@ class MobileCompany extends React.PureComponent {
   addClient = (data) => {
     let newClients=[...this.state.clients];
     let newClient={};
-    newClient.id=newClients[newClients.length-1].id+1;
+    if (newClients.length > 0) {
+      newClient.id=newClients[newClients.length-1].id+1;
+    } else {
+      newClient.id=1
+    }
     newClient.fam=data[0];
     newClient.im=data[1];
     newClient.otch=data[2];
@@ -70,7 +72,7 @@ class MobileCompany extends React.PureComponent {
         newClient.balance=Number(data[3]);
         newClients[index]=newClient;
       };
-      this.setState({clients: newClients, addOrEditComponent: false});
+      this.setState({clients: newClients, addOrEditComponent: false, currentClient: null});
     })
   };
 
@@ -81,27 +83,18 @@ class MobileCompany extends React.PureComponent {
   };
 
   activeCli = () => {
-    let newClients=[...this.state.clients];
-    let actived=newClients.filter((item, index)=>{
-      return item.balance>0
-    });
-    this.setState({activeClientsList: actived, blockedClientsList: null});
+    this.setState({showList: 2});
   };
 
   blockedCli = () => {
-    let newClients=[...this.state.clients];
-    let blocked=newClients.filter((item, index)=>{
-      return item.balance<0
-    });
-    this.setState({blockedClientsList: blocked, activeClientsList: null});
+    this.setState({showList: 1});
   };
 
   allCli = () => {
-    this.setState({blockedClientsList: null, activeClientsList: null});
+    this.setState({showList: 0});
   };
 
   delCli = (data) => {
-    console.log(data);
     let newclients=[...this.state.clients];
     newclients.forEach((item, index)=>{
       if(data.id==item.id) {
@@ -148,29 +141,29 @@ class MobileCompany extends React.PureComponent {
     console.log("MobileCompany render");
     var clientsCode;
 
-    /*целесообразно ли вот так, как реализовано ниже (строки 153-169), сделать рендер мобильной компании? То есть
-      для блокированных клиентов создать свой список, занесенный в state, для активных клиентов другой список,
-      тоже в отдельный state. Метод this.delCli получился громоздким, так как приходилось проверять не только общий список,
-      но и проверять списки заблокированных и активных клинтов отдельно. 
-      Я сначала пробовал работать с одним списком, но при фильтрации клиентов на заблокированные или активные, проходит
-      новый setState и например, добавленный мной клиент, который был в общем стейте клиентов, теряется.
-    */
-    if (this.state.blockedClientsList) {
-      clientsCode=this.state.blockedClientsList.map( client => {
-          return <MobileClient key={client.id} client={client} />;
-      });
-    };
-
-    if (this.state.activeClientsList) {
-      clientsCode=this.state.activeClientsList.map( client => {
-          return <MobileClient key={client.id} client={client} />;
-      });
-    };
-    
-    if (!this.state.activeClientsList && !this.state.blockedClientsList) {
-      clientsCode=this.state.clients.map( client => {
-        return <MobileClient key={client.id} client={client} />;
-      });
+    switch (this.state.showList) {
+      case 0:
+        clientsCode=this.state.clients.map(client=>{
+          return <MobileClient key={client.id} client={client} />
+        }) 
+        break;
+      case 1:
+        clientsCode=this.state.clients.map(client=>{
+          if (client.balance < 0) {
+            return <MobileClient key={client.id} client={client} />
+          }
+        }) 
+        break;
+        case 2:
+          clientsCode=this.state.clients.map(client=>{
+            if (client.balance > 0) {
+              return <MobileClient key={client.id} client={client} />
+            }
+          }) 
+          break;
+      
+      default:
+        break;
     }
 
     return (
@@ -204,14 +197,10 @@ class MobileCompany extends React.PureComponent {
           (this.state.addOrEditComponent) &&
           <AddOrEditClient mode={this.state.addOrEditMode} currentClient={this.state.currentClient}/>
         }
-        
       </div>
-
     )
     ;
-
   }
-
 }
 
 export default MobileCompany;

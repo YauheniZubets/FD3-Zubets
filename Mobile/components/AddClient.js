@@ -52,7 +52,6 @@ class AddOrEditClient extends React.PureComponent {
 
     render(){
         console.log('Add or Edit Render');
-        
         return (
             <div>
                 <input type='text' placeholder='Фамилия' 
