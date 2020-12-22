@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 
 import MobileClient from './MobileClient';
 import AddOrEditClient from './AddClient';
+import ModulesClients from '../modules/modules';  // функции с логикой добавления и удаления 
 
 import './MobileCompany.css';
 
 import {addOrEditEvents} from './events';
 
 class MobileCompany extends React.PureComponent {
+
+  constructor (props){
+    super(props);
+    this.moduleLogic= new ModulesClients; //логика методов: добавления, удаления клиентов
+  }
 
   static propTypes = {
     name: PropTypes.string.isRequired,
@@ -32,6 +38,7 @@ class MobileCompany extends React.PureComponent {
     showList: 0,
   };
 
+  /*
   setName1 = () => {
     this.setState({name:'МТС'});
   };
@@ -39,41 +46,18 @@ class MobileCompany extends React.PureComponent {
   setName2 = () => {
     this.setState({name:'Velcom'});
   };
+  */
   
   showAddOrEditComponent = () => {
     this.setState({addOrEditComponent: !this.state.addOrEditComponent, addOrEditMode: 1});
   };
   
   addClient = (data) => {
-    let newClients=[...this.state.clients];
-    let newClient={};
-    if (newClients.length > 0) {
-      newClient.id=newClients[newClients.length-1].id+1;
-    } else {
-      newClient.id=1
-    }
-    newClient.fam=data[0];
-    newClient.im=data[1];
-    newClient.otch=data[2];
-    newClient.balance=Number(data[3]);
-    newClients=[...newClients, newClient];
-    this.setState({clients: newClients, addOrEditComponent: false});
+    this.setState({clients: this.moduleLogic.setNewClient(data, this.state.clients), addOrEditComponent: false});
   };
 
   editClient = (data) => {
-    let newClients=[...this.state.clients];
-    newClients.forEach((item, index)=>{
-      if (item.id==data[4]){
-        let newClient={...item};
-        newClient.id=data[4];
-        newClient.fam=data[0];
-        newClient.im=data[1];
-        newClient.otch=data[2];
-        newClient.balance=Number(data[3]);
-        newClients[index]=newClient;
-      };
-      this.setState({clients: newClients, addOrEditComponent: false, currentClient: null});
-    })
+    this.setState({clients: this.moduleLogic.editCurrentClient(data, this.state.clients), addOrEditComponent: false, currentClient: null});
   };
 
   showEditCard = (client) => {
@@ -95,31 +79,7 @@ class MobileCompany extends React.PureComponent {
   };
 
   delCli = (data) => {
-    let newclients=[...this.state.clients];
-    newclients.forEach((item, index)=>{
-      if(data.id==item.id) {
-        newclients.splice(index, 1);
-      };
-    });
-    if (this.state.blockedClientsList){
-      let newClientsBlocked=[...this.state.blockedClientsList];
-      newClientsBlocked.forEach((item, index)=>{
-        if(data.id==item.id) {
-          newClientsBlocked.splice(index, 1);
-        };
-      });
-      this.setState({blockedClientsList: newClientsBlocked});
-    };
-    if (this.state.activeClientsList){
-      let newClientsActive=[...this.state.activeClientsList];
-      newClientsActive.forEach((item, index)=>{
-        if(data.id==item.id) {
-          newClientsActive.splice(index, 1);
-        };
-      });
-      this.setState({activeClientsList: newClientsActive});
-    };
-    this.setState({clients: newclients});
+    this.setState({clients: this.moduleLogic.deleteCurrentClient(data, this.state.clients)});
   };
 
   componentDidMount(){
@@ -168,13 +128,11 @@ class MobileCompany extends React.PureComponent {
 
     return (
       <div className='MobileCompany'>
-        <input type="button" value="=МТС" onClick={this.setName1} />
-        <input type="button" value="=Velcom" onClick={this.setName2} />
         <div className='MobileCompanyName'>Компания &laquo;{this.state.name}&raquo;</div>
         <div>
-          <button onClick={this.allCli}>Все</button>
-          <button onClick={this.activeCli}>Активные</button>
-          <button onClick={this.blockedCli}>Заблокированные</button>
+          <button onClick={this.allCli} value='all'>Все</button>
+          <button onClick={this.activeCli} value='active'>Активные</button>
+          <button onClick={this.blockedCli} value='blocked'>Заблокированные</button>
         </div>
         <div className='MobileCompanyClients'>
           <table>

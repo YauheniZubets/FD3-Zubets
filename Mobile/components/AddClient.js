@@ -71,7 +71,7 @@ class AddOrEditClient extends React.PureComponent {
                     defaultValue={(this.props.currentClient) && this.props.currentClient.balance}
                 ></input>
                 {
-                    (this.props.mode==1) && <button onClick={this.setNewData}>Добавить</button>
+                    (this.props.mode==1) && <button onClick={this.setNewData} value='Добавить'>Добавить</button>
                 }
                 {
                     (this.props.mode==2) && <button onClick={this.setNewData}>Редактировать</button>
