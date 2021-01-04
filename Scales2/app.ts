@@ -1,8 +1,8 @@
 class Scales {
 
-    products:Product[]=[];
+    products:IScalable[]=[];
 
-    add (_product:Product):void {
+    add (_product:IScalable):void {
         this.products.push(_product);
     };
 
@@ -25,33 +25,49 @@ class Scales {
     };
 };
 
-class Product {
+interface IScalable {
+
+    getScale():number;
+    getName():string;
+
+}
+
+class Apple implements IScalable {
+
     name:string;
     weight:number;
 
-    getScale ():number {
-        return this.weight
-    };
-
-    getName ():string {
-        return this.name
-    }
-}
-
-class Apple extends Product {
     constructor (_name:string, _weight:number) {
-        super();
-        this.name=_name;//в свойство name класса Продукт сразу заносим имя
-        this.weight=_weight;//в свойство weight класса Продукт сразу заносим массу
-    };
-};
-
-class Tomato extends Product {
-    constructor (_name:string, _weight:number) {
-        super();
         this.name=_name;
         this.weight=_weight;
     };
+
+    getScale ():number {
+        return this.weight;
+    };
+
+    getName ():string {
+        return this.name;
+    }
+};
+
+class Tomato implements IScalable {
+
+    name:string;
+    weight:number;
+
+    constructor (_name:string, _weight:number) {
+        this.name=_name;
+        this.weight=_weight;
+    };
+
+    getScale ():number {
+        return this.weight;
+    };
+
+    getName ():string {
+        return this.name;
+    }
 };
 
 let scale:Scales=new Scales;
