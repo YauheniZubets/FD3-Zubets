@@ -1,0 +1,8 @@
+<div>
+
+  <input type="number" #apples placeholder="Сколько у Вас яблок?" (input)="false" />
+  <br>
+  <span> У Вас {{apples.value ||0}} {{apples.value | numword:'яблоко':'яблока':'яблок'}}</span>
+
+
+</div>
