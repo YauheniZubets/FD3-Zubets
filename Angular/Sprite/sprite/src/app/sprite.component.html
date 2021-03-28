@@ -1,0 +1,9 @@
+<div [ngStyle]="{'background-image': 'url('+ imageSprite +')',
+                 'width': width+'px', 'height': height+'px', 
+                 'overflow': 'hidden',
+                 'background-repeat':'no-repeat',
+                 'background-position': offsetX +'px ' + offsetY + 'px'
+                }"
+    (click)="changeSprite()"
+>
+</div>
